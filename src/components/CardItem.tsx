@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Subheading, Title} from "react-native-paper";
+import {Button, Card, Paragraph, Title} from "react-native-paper";
 import {StyleSheet} from "react-native";
 
 const styles = StyleSheet.create({
@@ -11,29 +11,24 @@ const styles = StyleSheet.create({
 export type Props = {
     name: String,
     model: String,
-    crew: String,
     cost_in_credits: String,
     manufacturer: String,
 }
 
-const CardItem = ({name, model, crew, cost_in_credits, manufacturer}: Props) => {
+const CardItem = ({name, model, cost_in_credits, manufacturer}: Props) => {
     const handleBuy = () => {
         alert("Buy!");
     };
 
     return (
         <Card style={styles.containerCard}>
-            <Card.Title title={name} subtitle={manufacturer} />
+            <Card.Title title={name} subtitle={model} />
             <Card.Content>
-                <Title>{model}</Title>
-                <Subheading>Crew: {crew}</Subheading>
+                <Paragraph>{manufacturer}</Paragraph>
+                <Title>{cost_in_credits} credits</Title>
             </Card.Content>
             <Card.Actions>
-                {cost_in_credits === "unknown" ? (
-                    <Button disabled>Not for sale</Button>
-                ) : (
-                    <Button onPress={handleBuy}>{cost_in_credits} credits</Button>
-                )}
+                { cost_in_credits !== "unknown" && <Button onPress={handleBuy}>BUY THIS SPACESHIP</Button> }
             </Card.Actions>
         </Card>
     )
