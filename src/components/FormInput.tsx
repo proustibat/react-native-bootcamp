@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export const FormInput = (props: Partial<TextInputProps>) => {
-  return <TextInput style={styles.root} {...props} />;
-};
+export const FormInput = (props: Partial<TextInputProps>) => (
+  <TextInput style={styles.root} {...props} />
+);
 
 const TextInputIcon = TextInput.Icon;
 

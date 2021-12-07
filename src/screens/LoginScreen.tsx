@@ -1,19 +1,21 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Colors } from "react-native-paper";
+import { StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { Button, Colors, Text } from "react-native-paper";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
-import { Header } from "~/components/Header";
 import { FormInput, FormInputIcon } from "~/components/FormInput";
+import { AppRoutes } from "~/navigation/AppRoutes";
 
 const styles = StyleSheet.create({
-  content: {
-    padding: 16,
-  },
   submitButton: {
     marginVertical: 32,
     marginHorizontal: 16,
-    backgroundColor: Colors.purple500,
+  },
+  tocText: {
+    textAlign: "center",
+    fontSize: 14,
+    color: Colors.grey500,
   },
 });
 
@@ -25,20 +27,24 @@ export const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(true);
+  const navigation = useNavigation();
 
   const handleLogin = () => {
     console.log(email, password);
+    navigation.navigate(AppRoutes.STARSHIPS_FEED_SCREEN as never);
   };
 
   const toggleSecureIcon = () => {
     setIsVisible(!isVisible);
   };
 
-  return (
-    <>
-      <Header title="SpaceCraft" />
+  const navigateToTerms = () => {
+    navigation.navigate(AppRoutes.TERMS_SCREEN as never);
+  };
 
-      <View style={styles.content}>
+  return (
+    <ScrollView style={{ flex: 1 }}>
+      <ScrollView>
         <FormInput
           label="Email"
           value={email}
@@ -65,7 +71,13 @@ export const LoginScreen = () => {
         >
           Login
         </Button>
-      </View>
-    </>
+
+        <TouchableOpacity onPress={navigateToTerms}>
+          <Text style={styles.tocText}>
+            by login you accept the Terms and Conditions.
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </ScrollView>
   );
 };

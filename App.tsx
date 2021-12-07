@@ -1,28 +1,39 @@
 import * as React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NetworkProvider } from "react-native-offline";
-
-// import { LoginScreen } from "~/screens/LoginScreen";
-// import { TermsScreen } from "~/screens/TermsScreen";
+import "react-native-gesture-handler";
+import {
+  NavigationContainer,
+  createNavigationContainerRef,
+} from "@react-navigation/native";
 
 import { AppLayout } from "./AppLayout";
 
 import { Offline } from "~/components/Offline";
-import { FeedScreen } from "~/screens/FeedScreen";
+import { Navigator } from "~/navigation/Navigator";
+import { useCurrentRouteName } from "~/hooks/useCurrentRouteName";
+import { AppRoutes, RoutesConfig } from "~/navigation/AppRoutes";
 
 // Create a client
 const queryClient = new QueryClient();
 
 const App = () => {
+  const navigationRef = createNavigationContainerRef();
+
+  const { title, updateTitle } = useCurrentRouteName(navigationRef);
+
   return (
     <NetworkProvider>
       <QueryClientProvider client={queryClient}>
-        <AppLayout title="Starships" withFooter={true}>
-          <Offline />
-          {/*<LoginScreen/>*/}
-          {/*<TermsScreen/>*/}
-          <FeedScreen />
-        </AppLayout>
+        <NavigationContainer onStateChange={updateTitle} ref={navigationRef}>
+          <AppLayout
+            title={RoutesConfig.shouldHideTitle(title) ? undefined : title}
+            withFooter={!RoutesConfig.shouldHideFooter(title)}
+          >
+            <Offline />
+            <Navigator />
+          </AppLayout>
+        </NavigationContainer>
       </QueryClientProvider>
     </NetworkProvider>
   );
