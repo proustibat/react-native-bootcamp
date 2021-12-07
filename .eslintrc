@@ -1,0 +1,15 @@
+{
+  "extends": ["react-native-wcandillon", "prettier"],
+  "plugins": ["react","react-native","prettier"],
+  "rules": {
+    "prettier/prettier": ["error"]
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-plugin-root-import": {
+        "rootPathPrefix": "~",
+        "rootPathSuffix": "src"
+      }
+    }
+  }
+}
